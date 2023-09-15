@@ -16,7 +16,6 @@ func _process(delta):
 	
 # handle collision on the walls.  
 #
-#
 func _on_up_body_entered(body):
 	body.dir.y *= -1
 func _on_down_body_entered(body):
