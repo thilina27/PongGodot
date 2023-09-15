@@ -1,0 +1,117 @@
+[gd_scene load_steps=13 format=3 uid="uid://baglnl67n2js5"]
+
+[ext_resource type="Script" path="res://Node2d.gd" id="1_hf7w1"]
+[ext_resource type="Texture2D" uid="uid://ddb0l1wy52j4i" path="res://Sprite-0001.png" id="1_xhgp3"]
+[ext_resource type="Script" path="res://PlayerOne.gd" id="4_103pr"]
+[ext_resource type="PackedScene" uid="uid://buubvd66ug0g4" path="res://ball.tscn" id="5_insvu"]
+[ext_resource type="Script" path="res://PlayerTwo.gd" id="6_5akku"]
+[ext_resource type="Script" path="res://Score.gd" id="7_v3yn5"]
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_ibcub"]
+size = Vector2(1176, 16)
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_sqmqh"]
+size = Vector2(48.5, 660)
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_3ik3h"]
+size = Vector2(14.5, 40.3333)
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_mormx"]
+size = Vector2(32.5, 63.3333)
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_1jtsu"]
+size = Vector2(19, 43.3333)
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_pr0qn"]
+size = Vector2(32.25, 63.5)
+
+[node name="Node2D" type="Node2D"]
+script = ExtResource("1_hf7w1")
+
+[node name="up" type="Area2D" parent="."]
+position = Vector2(175, 153)
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="up"]
+position = Vector2(400, -162)
+shape = SubResource("RectangleShape2D_ibcub")
+
+[node name="Down" type="Area2D" parent="."]
+position = Vector2(581, 664)
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Down"]
+position = Vector2(-1, -7)
+shape = SubResource("RectangleShape2D_ibcub")
+
+[node name="left" type="Area2D" parent="."]
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="left"]
+position = Vector2(-26.25, 316)
+shape = SubResource("RectangleShape2D_sqmqh")
+
+[node name="right" type="Area2D" parent="."]
+position = Vector2(1128, 12)
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="right"]
+position = Vector2(48, 318)
+shape = SubResource("RectangleShape2D_sqmqh")
+
+[node name="PlayerOne" type="CharacterBody2D" parent="."]
+position = Vector2(67, 530)
+scale = Vector2(2, 3)
+collision_layer = 0
+collision_mask = 0
+script = ExtResource("4_103pr")
+
+[node name="Sprite2D" type="Sprite2D" parent="PlayerOne"]
+texture = ExtResource("1_xhgp3")
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="PlayerOne"]
+position = Vector2(0.25, -2.5)
+shape = SubResource("RectangleShape2D_3ik3h")
+
+[node name="Area2D" type="Area2D" parent="PlayerOne"]
+collision_layer = 2
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="PlayerOne/Area2D"]
+position = Vector2(0.25, -0.333336)
+shape = SubResource("RectangleShape2D_mormx")
+
+[node name="PlayerTwo" type="CharacterBody2D" parent="."]
+position = Vector2(1085, 357)
+scale = Vector2(2, 3)
+collision_layer = 0
+collision_mask = 0
+script = ExtResource("6_5akku")
+
+[node name="Sprite2D" type="Sprite2D" parent="PlayerTwo"]
+texture = ExtResource("1_xhgp3")
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="PlayerTwo"]
+position = Vector2(-1, -1)
+shape = SubResource("RectangleShape2D_1jtsu")
+
+[node name="Area2D" type="Area2D" parent="PlayerTwo"]
+collision_layer = 2
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="PlayerTwo/Area2D"]
+position = Vector2(-0.125, -0.0833282)
+shape = SubResource("RectangleShape2D_pr0qn")
+
+[node name="Ball" parent="." instance=ExtResource("5_insvu")]
+collision_mask = 2
+
+[node name="Label" type="Label" parent="."]
+offset_left = 561.0
+offset_top = 2.0
+offset_right = 591.0
+offset_bottom = 74.0
+theme_override_font_sizes/font_size = 50
+text = "0"
+script = ExtResource("7_v3yn5")
+
+[connection signal="body_entered" from="up" to="." method="_on_up_body_entered"]
+[connection signal="body_entered" from="Down" to="." method="_on_down_body_entered"]
+[connection signal="body_entered" from="left" to="." method="_on_left_body_entered"]
+[connection signal="body_entered" from="right" to="." method="_on_right_body_entered"]
+[connection signal="body_entered" from="PlayerOne/Area2D" to="PlayerOne" method="_on_area_2d_body_entered"]
+[connection signal="body_entered" from="PlayerTwo/Area2D" to="PlayerTwo" method="_on_area_2d_body_entered"]
